@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Black Empowerment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #FFD700, #000);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav.top-nav {
+      display: flex;
+      justify-content: center;
+      background-color: #000;
+      padding: 10px 0;
+      gap: 30px;
+    }
+
+    nav.top-nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: color 0.3s ease;
+    }
+
+    nav.top-nav a:hover {
+      color: #fff;
+    }
+
+    .container {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .container h1 {
+      font-size: 2.5em;
+      color: #FFD700;
+    }
+
+    form {
+      background-color: #333;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0;
+      border: 2px solid #FFD700;
+      border-radius: 5px;
+      background-color: #555;
+      color: #fff;
+    }
+
+    input[type="submit"] {
+      background-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #ffcc00;
+    }
+
+    .welcome-message {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #FFD700;
+    }
+
+    .create-account {
+      margin-top: 20px;
+    }
+
+    .create-account a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #FFD700;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .create-account a:hover {
+      background-color: #000;
+      color: #FFD700;
+    }
+
+    footer {
+      margin-top: 30px;
+      background-color: #FFD700;
+      color: #000;
+      padding: 10px 0;
+      text-align: center;
+    }
+        footer {
+      margin-top: 30px;
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    nav.footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 10px;
+    }
+
+    nav.footer-nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    .social-icons {
+      margin: 10px 0;
+    }
+
+    .social-icons a {
+      color: #FFD700;
+      margin: 0 10px;
+      font-size: 1.3em;
+      text-decoration: none;
+    }
+
+    .credits {
+      margin-top: 10px;
+      font-size: 0.8em;
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Login - Black Empowerment
+  </header>
+
+  <nav class="top-nav">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="apply.html"><i class="fas fa-file-alt"></i> Apply</a>
+    <a href="#"><i class="fas fa-robot"></i> Chatbot</a>
+   
+    <a href="track.html"><i class="fas fa-search-location"></i> Track Application</a>
+  </nav>
+
+  <div class="container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <input type="text" id="studentId" placeholder="Enter Student ID" required>
+      <input type="password" id="password" placeholder="Enter Password" required>
+      <input type="submit" value="Login">
+    </form>
+
+    <div class="create-account">
+      <p>Don't have an account?</p>
+      <a href="create_account.html">Create Account</a>
+    </div>
+
+    <div class="welcome-message" id="welcomeMessage"></div>
+  </div>
+
+  <footer>
+      
+          <nav class="footer-nav">
+      <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+      <a href="Login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="submit.html"><i class="fas fa-upload"></i> Submit Documents</a>
+    </nav>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+    <div class="credits">
+      <h6>Designed by BlackLogic and Queen Asanda</h6>
+    </div>
+  
+    &copy; 2025 Black Empowerment. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var studentId = document.getElementById('studentId').value;
+      var password = document.getElementById('password').value;
+
+      var correctStudentId = "BE-JD1234";
+      var correctPassword = "qwerty12";
+
+      if (studentId === correctStudentId && password === correctPassword) {
+        alert("Login successful!");
+        document.getElementById('welcomeMessage').innerHTML = `
+          <p>Welcome back, ${studentId}!</p>
+          <p>Your hard work is paying off. Keep pushing forward!</p>
+        `;
+        setTimeout(() => {
+          window.location.href = "apply.html";
+        }, 2000); // 2 seconds delay before redirect
+      } else {
+        alert("Incorrect Student ID or Password! Please try again.");
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Submit Documents</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background-color: #000; color: #FFD700; font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+    h1 { margin-bottom: 20px; font-size: 1.8em; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="file"] { margin-top: 5px; color: white; }
+    button { margin-top: 15px; padding: 12px 24px; background-color: #FFD700; color: black; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background-color: #fff700; }
+    nav.top-nav { display: flex; justify-content: center; background-color: #000; padding: 10px 0; gap: 30px; margin-bottom: 20px; }
+    nav.top-nav a { color: #FFD700; text-decoration: none; font-size: 1.2em; transition: color 0.3s ease; }
+    nav.top-nav a:hover { color: #fff; }
+    nav.footer-nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 10px; }
+    nav.footer-nav a { color: #FFD700; text-decoration: none; font-size: 1.1em; }
+    .social-icons { margin: 10px 0; }
+    .social-icons a { color: #FFD700; margin: 0 10px; font-size: 1.3em; text-decoration: none; }
+    .credits { margin-top: 10px; font-size: 0.8em; color: #FFD700; }
+    .file-preview { margin-top: 10px; color: #fff; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    iframe { width: 100%; max-width: 500px; height: 600px; margin-top: 20px; border: 2px solid #FFD700; display: none; }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="apply.html"><i class="fas fa-file-alt"></i> Apply</a>
+    <a href="#"><i class="fas fa-robot"></i> Chatbot</a>
+    <a href="track.html"><i class="fas fa-search-location"></i> Track</a>
+  </nav>
+
+  <h1>📄 Upload Application Documents</h1>
+
+  <form id="uploadForm">
+    <label for="idDoc">ID Document:</label>
+    <input type="file" id="idDoc" accept=".pdf,.jpg,.jpeg,.png" required>
+    <label for="results">Matric or Grade 11 Results:</label>
+    <input type="file" id="results" accept=".pdf,.jpg,.jpeg,.png" required>
+    <label for="residence">Proof of Residence:</label>
+    <input type="file" id="residence" accept=".pdf,.jpg,.jpeg,.png" required>
+    <label for="kinId">Next of Kin ID:</label>
+    <input type="file" id="kinId" accept=".pdf,.jpg,.jpeg,.png" required>
+
+    <div class="note">Max total size: 5MB</div>
+
+    <div class="file-preview" id="filePreview"></div>
+
+    <div class="actions">
+      <button type="button" id="viewBtn"><i class="fas fa-eye"></i> View Documents</button>
+      <button type="button" id="shareBtn"><i class="fas fa-share"></i> Share to Agent</button>
+    </div>
+  </form>
+
+  <iframe id="viewer"></iframe>
+
+  <footer>
+    <nav class="footer-nav">
+      <a href="upload.html"><i class="fas fa-user-circle"></i> Account</a>
+      <a href="Login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+      <a href="submit.html"><i class="fas fa-upload"></i> Submit Documents</a>
+    </nav>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+    <div class="credits">
+      <h6>Designed by BlackLogic and Queen Asanda</h6>
+    </div>
+    &copy; 2025 Black Empowerment. All rights reserved.
+  </footer>
+
+  <script>
+    const files = ['idDoc','results','residence','kinId'];
+    const filePreviewEl = document.getElementById('filePreview');
+    const viewer = document.getElementById('viewer');
+    const shareBtn = document.getElementById('shareBtn');
+
+    function updatePreview() {
+      filePreviewEl.innerHTML = '';
+      files.forEach(id => {
+        const fileInput = document.getElementById(id);
+        if(fileInput.files.length > 0){
+          const file = fileInput.files[0];
+          filePreviewEl.innerHTML += `<p>${id}: ${file.name} (${(file.size/1024).toFixed(1)} KB)</p>`;
+        } else {
+          filePreviewEl.innerHTML += `<p>${id}: Not selected</p>`;
+        }
+      });
+    }
+
+    document.getElementById('viewBtn').addEventListener('click', () => {
+      updatePreview();
+      const docName = prompt('Which document do you want to view?\nOptions: idDoc, results, residence, kinId').trim();
+      if(!files.includes(docName)) { alert('Invalid selection!'); return; }
+      const fileInput = document.getElementById(docName);
+      if(fileInput.files.length === 0) { alert('No file selected for this document'); return; }
+      const file = fileInput.files[0];
+      const fileURL = URL.createObjectURL(file);
+      viewer.src = fileURL;
+      viewer.style.display = 'block';
+    });
+
+    shareBtn.addEventListener('click', () => {
+      let message = 'Hi, I have prepared my application documents:\n';
+      files.forEach(id=>{
+        const fileInput = document.getElementById(id);
+        if(fileInput.files.length>0){
+          message += `${id}: ${fileInput.files[0].name}\n`;
+        }
+      });
+      const phoneNumber = "+27606614909";
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,'_blank');
+    });
+  </script>
+
+</body>
+</html>

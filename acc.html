@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account - TREC</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <style>
+    body {
+      background-color: #000;
+      color: #FFD700;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #FFD700;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    .user-info {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #FFD700;
+    }
+    .container {
+      padding: 20px;
+    }
+    .chart-card {
+      background: #111;
+      border: 2px solid #FFD700;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Account Dashboard</h1>
+    <div class="user-info">
+      <p><b>Name:</b> John</p>
+      <p><b>Surname:</b> Doe</p>
+      <p><b>Email:</b> john.doe@example.com</p>
+      <p><b>Student ID:</b> STU-****-2398</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="chart-card">
+      <h3>College Applications Progress</h3>
+      <canvas id="collegeChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>University Applications Progress</h3>
+      <canvas id="universityChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Overall Progress</h3>
+      <canvas id="overallChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const chartOptions = {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        datalabels: {
+          color: '#FFD700',
+          font: { weight: 'bold' },
+          formatter: (value) => value + '%'
+        },
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          min: 0,
+          max: 100,
+          ticks: { color: '#FFD700' },
+          grid: { color: '#333' }
+        },
+        y: {
+          ticks: { color: '#FFD700' },
+          grid: { display: false }
+        }
+      }
+    };
+
+    function createChart(id, label, value) {
+      new Chart(document.getElementById(id), {
+        type: 'bar',
+        data: {
+          labels: [label],
+          datasets: [{
+            label: label,
+            data: [value],
+            backgroundColor: 'rgba(255, 215, 0, 0.8)',
+            borderColor: '#FFD700',
+            borderWidth: 2,
+            borderRadius: 8
+          }]
+        },
+        options: chartOptions,
+        plugins: [ChartDataLabels]
+      });
+    }
+
+    // Example data (replace with real-time API later)
+    createChart('collegeChart', 'College Progress', 65);
+    createChart('universityChart', 'University Progress', 40);
+    createChart('overallChart', 'Overall Progress', 55);
+  </script>
+</body>
+</html>

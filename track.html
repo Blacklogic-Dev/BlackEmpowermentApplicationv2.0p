@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Application | Black Empowerment</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --gold:#FFD700;
+    --accent:#22d3ee;
+    --bg:#000;
+    --panel:#1a1a1a;
+    --ok:#22c55e;
+    --pending:#facc15;
+    --approved:#22c55e;
+    --rejected:#ef4444;
+    --review:#3b82f6;
+  }
+  body{background:var(--bg); color:#fff; font-family:Arial,sans-serif; margin:0; padding:20px;}
+  h2{text-align:center;color:var(--gold); margin:.25rem 0 1rem;}
+  .panel{max-width:900px;margin:auto;background:var(--panel);padding:20px;border-radius:12px;}
+  .info, .choices{margin-top:20px;}
+  .info div, .choices div{margin-bottom:10px;}
+  .label{font-weight:bold;}
+  .status{padding:3px 8px; border-radius:6px; color:#000; font-weight:bold; margin-left:10px;}
+  .status.pending{background:var(--pending);}
+  .status.approved{background:var(--approved);}
+  .status.rejected{background:var(--rejected);}
+  .status.review{background:var(--review);}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+  button{background:var(--ok); color:black; padding:12px 16px; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition:transform .12s ease, opacity .2s ease;}
+  button:hover{transform:translateY(-1px); opacity:.95;}
+  .btn-outline{background:#111;color:#fff;border:1px solid #2b2b2b;}
+  footer{background:rgba(0,0,0,0.85);padding:20px 10px;text-align:center;color:var(--accent); margin-top:30px;}
+</style>
+</head>
+<body>
+
+<h2>Track Your Application</h2>
+
+<div class="panel" id="trackingPanel">
+  <div class="info">
+    <div><span class="label">Student ID:</span> <span id="studentId">XXX-XXXX</span></div>
+    <div><span class="label">Application Code:</span> <span id="appCode">XXX-XXXX</span></div>
+    <div><span class="label">Name:</span> <span id="fullName">N/A</span></div>
+    <div><span class="label">ID Number:</span> <span id="idNumber">XXX</span></div>
+    <div><span class="label">Email:</span> <span id="email">N/A</span></div>
+    <div><span class="label">Phone:</span> <span id="phone">N/A</span></div>
+    <div><span class="label">Application Year:</span> <span id="year">N/A</span></div>
+  </div>
+
+  <div class="choices">
+    <h3>Choices</h3>
+    <div><span class="label">Choice 1:</span> <span id="choice1">N/A</span> <span class="status" id="status1">Pending</span></div>
+    <div><span class="label">Choice 2:</span> <span id="choice2">N/A</span> <span class="status" id="status2">Pending</span></div>
+    <div><span class="label">Choice 3:</span> <span id="choice3">N/A</span> <span class="status" id="status3">Pending</span></div>
+  </div>
+
+  <div class="actions">
+    <button type="button" onclick="downloadPDF()">Download PDF</button>
+    <button type="button" onclick="shareToAgent()">Share to Agent</button>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Black Empowerment | Designed by BlackLogic & Queen Asanda</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  // Simulated session data from login / apply page
+  const sessionUser = {
+    studentId: "BE-AB12",
+    appCode: "APP-3456",
+    fullName: "Asanda Ndlovu",
+    idNumber: "9001011234567",
+    email: "you@email.com",
+    phone: "071 234 5678",
+    year: "2026",
+    choices:[
+      {inst:"University of Cape Town", faculty:"Engineering", course:"Civil Engineering", status:"pending"},
+      {inst:"Durban University of Technology", faculty:"Health", course:"Nursing", status:"approved"},
+      {inst:"Tshwane University of Technology", faculty:"Business", course:"Accounting", status:"review"}
+    ]
+  };
+
+  // Map statuses to class names
+  const statusClassMap = {
+    pending: "pending",
+    approved: "approved",
+    rejected: "rejected",
+    review: "review"
+  };
+
+  // Mask Student ID for privacy
+  function maskId(id){
+    return id.slice(0,2) + "-XXX";
+  }
+
+  // Load session data into tracking panel
+  function loadTrackingData(){
+    document.getElementById("studentId").textContent = maskId(sessionUser.studentId);
+    document.getElementById("appCode").textContent = "XXX-" + sessionUser.appCode.split("-")[1];
+    document.getElementById("fullName").textContent = sessionUser.fullName;
+    document.getElementById("idNumber").textContent = "XXX";
+    document.getElementById("email").textContent = sessionUser.email;
+    document.getElementById("phone").textContent = sessionUser.phone;
+    document.getElementById("year").textContent = sessionUser.year;
+
+    sessionUser.choices.forEach((c,i)=>{
+      const choiceEl = document.getElementById("choice"+(i+1));
+      const statusEl = document.getElementById("status"+(i+1));
+      choiceEl.textContent = `${c.inst} - ${c.faculty} - ${c.course}`;
+      statusEl.textContent = c.status.charAt(0).toUpperCase() + c.status.slice(1);
+      statusEl.className = "status " + statusClassMap[c.status];
+    });
+  }
+
+  // PDF Download
+  function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let receipt = `APPLICATION TRACKING\n\nStudent ID: ${sessionUser.studentId}\nApplication Code: ${sessionUser.appCode}\nName: ${sessionUser.fullName}\nID: ${sessionUser.idNumber}\nEmail: ${sessionUser.email}\nPhone: ${sessionUser.phone}\nYear: ${sessionUser.year}\n\nChoices:\n`;
+    sessionUser.choices.forEach((c,i)=>{
+      receipt += `Choice ${i+1}: ${c.inst} - ${c.faculty} - ${c.course} [${c.status.charAt(0).toUpperCase() + c.status.slice(1)}]\n`;
+    });
+    doc.setFont("Courier");
+    doc.text(receipt, 10, 10);
+    doc.save("ApplicationTracking.pdf");
+  }
+
+  // WhatsApp Share
+  function shareToAgent(){
+    const phoneNumber = "+27606614909"; // Agent number
+    let msg = `Hi, I'm tracking my application. Here are my details:\n\nStudent ID: ${sessionUser.studentId}\nApplication Code: ${sessionUser.appCode}\nName: ${sessionUser.fullName}\nID: ${sessionUser.idNumber}\nEmail: ${sessionUser.email}\nPhone: ${sessionUser.phone}\nYear: ${sessionUser.year}\n\nChoices:\n`;
+    sessionUser.choices.forEach((c,i)=>{
+      msg += `Choice ${i+1}: ${c.inst} - ${c.faculty} - ${c.course} [${c.status.charAt(0).toUpperCase() + c.status.slice(1)}]\n`;
+    });
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  window.addEventListener("DOMContentLoaded", loadTrackingData);
+</script>
+
+</body>
+</html>
+

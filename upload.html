@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Progress Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #FFD700;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      margin-bottom: 25px;
+    }
+
+    .progress-container {
+      margin: 20px auto;
+      width: 80%;
+      background: #222;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #FFD700;
+    }
+
+    .progress-bar {
+      height: 25px;
+      width: 0;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      text-align: right;
+      line-height: 25px;
+      color: #000;
+      font-weight: bold;
+      transition: width 1s ease-out;
+    }
+
+    .logout-btn {
+      background: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+
+    .logout-btn:hover {
+      background: #FFA500;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      color: #FFD700;
+      box-shadow: 0 0 15px #FFD700;
+    }
+
+    .modal button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .yes-btn {
+      background: #FFD700;
+      color: #000;
+    }
+
+    .cancel-btn {
+      background: #444;
+      color: #FFD700;
+    }
+
+    .cancel-btn:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Student Progress Dashboard</h1>
+
+  <div class="info">
+    <p><b>Name:</b> John</p>
+    <p><b>Surname:</b> Doe</p>
+    <p><b>Email:</b> john.doe@email.com</p>
+    <p><b>Student ID:</b> ****5678</p>
+  </div>
+
+  <!-- Progress bars -->
+  <div>
+    <h3>College Progress</h3>
+    <div class="progress-container">
+      <div class="progress-bar" id="college-bar">0%</div>
+    </div>
+  </div>
+
+  <div>
+    <h3>University Progress</h3>
+    <div class="progress-container">
+      <div class="progress-bar" id="university-bar">0%</div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Overall Progress</h3>
+    <div class="progress-container">
+      <div class="progress-bar" id="overall-bar">0%</div>
+    </div>
+  </div>
+
+  <!-- Logout button -->
+  <button class="logout-btn" id="logoutBtn">Logout</button>
+
+  <!-- Modal -->
+  <div class="modal" id="logoutModal">
+    <div class="modal-content">
+      <p>Are you sure you want to logout?</p>
+      <button class="yes-btn" id="yesBtn">Yes</button>
+      <button class="cancel-btn" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    // Fake user progress (from backend or DB)
+    const progressData = {
+      college: 70,
+      university: 55,
+      overall: 80
+    };
+
+    function animateProgress(barId, finalValue) {
+      let elem = document.getElementById(barId);
+      let width = 0;
+      let interval = setInterval(() => {
+        if (width >= finalValue) {
+          clearInterval(interval);
+        } else {
+          width += 3; // Rapid increase
+          if (width > finalValue) width = finalValue; // Stop exactly
+          elem.style.width = width + "%";
+          elem.textContent = width + "%";
+        }
+      }, 30); // Fast speed
+    }
+
+    // Animate progress bars
+    animateProgress("college-bar", progressData.college);
+    animateProgress("university-bar", progressData.university);
+    animateProgress("overall-bar", progressData.overall);
+
+    // Logout modal logic
+    const logoutBtn = document.getElementById("logoutBtn");
+    const logoutModal = document.getElementById("logoutModal");
+    const yesBtn = document.getElementById("yesBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+
+    logoutBtn.onclick = () => {
+      logoutModal.style.display = "flex";
+    };
+
+    cancelBtn.onclick = () => {
+      logoutModal.style.display = "none";
+    };
+
+    yesBtn.onclick = () => {
+      window.location.href = "login.html"; // Back to login page
+    };
+
+    // Close modal when clicking outside
+    window.onclick = (event) => {
+      if (event.target === logoutModal) {
+        logoutModal.style.display = "none";
+      }
+    };
+  </script>
+</body>
+</html>

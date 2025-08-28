@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freedom - Smart AI Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    nav.top-nav {
+      display: flex;
+      justify-content: center;
+      background-color: #000;
+      padding: 15px;
+      gap: 30px;
+    }
+
+    nav.top-nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
+    nav.top-nav a:hover {
+      color: #fff;
+    }
+
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .freedom-img {
+      width: 250px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 2em;
+      color: #FFD700;
+    }
+
+    .chat-box {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: left;
+      min-height: 300px;
+      overflow-y: auto;
+    }
+
+    .chat-message {
+      margin-bottom: 20px;
+    }
+
+    .user-message {
+      color: lightgreen;
+      font-weight: bold;
+    }
+
+    .ai-message {
+      color: #FFD700;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .categories button, .suggestions button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .categories button:hover, .suggestions button:hover {
+      background-color: #fff;
+    }
+
+    .active-category {
+      background-color: #fff !important;
+      color: #000 !important;
+    }
+
+    .suggestions {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="apply.html"><i class="fas fa-file-alt"></i> Apply</a>
+  <a href="track.html"><i class="fas fa-search-location"></i> Track</a>
+  <a href="upload.html"><i class="fas fa-user"></i> Account</a>
+</nav>
+
+<div class="container">
+  <img src="Bot.png" alt="Freedom AI" class="freedom-img">
+
+  <h1>Freedom - Your Smart AI Assistant</h1>
+  <p>Hi! I'm <strong>Freedom</strong>, your digital assistant from <strong>Black Empowerment</strong> designed by <strong>BlackLogic</strong> to help you discover careers, institutions, and courses.</p>
+
+  <div class="chat-box" id="chatBox">
+    <div class="chat-message ai-message">👋 Hello! Select a category to get started.</div>
+  </div>
+
+  <!-- Category Buttons (Faculties / Common Questions) -->
+  <div class="categories" id="categoryButtons">
+    <button data-cat="career">Career Guidance</button>
+    <button data-cat="institution">Institutions</button>
+    <button data-cat="advice">General Advice</button>
+    <button data-cat="faq">FAQs</button>
+  </div>
+
+  <!-- Suggestions buttons (questions appear here based on category) -->
+  <div class="suggestions" id="suggestionsBox"></div>
+</div>
+
+<script>
+  const chatBox = document.getElementById("chatBox");
+  const suggestionsBox = document.getElementById("suggestionsBox");
+  const categoryButtons = document.getElementById("categoryButtons").querySelectorAll("button");
+
+  const categories = {
+    career: [
+      "What career is best for me if I like math?",
+      "Which career pays the most in South Africa?",
+      "Best careers for introverts?",
+      "Engineering vs IT vs Health careers"
+    ],
+    institution: [
+      "Diploma vs Degree",
+      "University vs University of Technology",
+      "University vs College",
+      "Which universities accept NSFAS?",
+      "Guide based on my application form"
+    ],
+    advice: [
+      "How do I choose the right course?",
+      "Part-time study vs full-time study?",
+      "Gap year advice",
+      "How to prepare for university life?"
+    ],
+    faq: [
+      "Application deadlines",
+      "Required documents",
+      "Application fees",
+      "Student number info"
+    ]
+  };
+
+  const responses = {
+    "What career is best for me if I like math?": "If you love math, consider careers like Actuary, Data Analyst, Engineer, or Statistician.",
+    "Which career pays the most in South Africa?": "Top paying careers include Doctors, Actuaries, Software Engineers, and Chartered Accountants.",
+    "Best careers for introverts?": "Introverts may thrive as writers, designers, programmers, researchers, or lab technicians.",
+    "Engineering vs IT vs Health careers": "It depends on your interests! Engineering is technical, IT is coding/software, Health is service-based.",
+    "Diploma vs Degree": "A degree is more theoretical and longer. A diploma is shorter and practical.",
+    "University vs University of Technology": "Universities focus on theory; Universities of Technology focus on practical skills.",
+    "University vs College": "Universities grant degrees; Colleges offer diplomas or certificates.",
+    "Which universities accept NSFAS?": "Most public universities and TVET colleges in South Africa accept NSFAS funding.",
+    "Guide based on my application form": "Please fill your application form first; I will provide guidance based on your selections.",
+    "How do I choose the right course?": "Think about your strengths, interests, and job prospects. Explore and ask questions!",
+    "Part-time study vs full-time study?": "Part-time allows work-study balance, full-time is faster and immersive.",
+    "Gap year advice": "A gap year can help you refocus, gain experience, and save money—but have a plan.",
+    "How to prepare for university life?": "Stay organized, manage time, ask for help, and join campus activities.",
+    "Application deadlines": "Deadlines vary per institution. Check the official websites for the most accurate dates.",
+    "Required documents": "Commonly needed: ID, transcript, proof of residence, and application form.",
+    "Application fees": "Most applications require a small fee; some institutions waive it under certain conditions.",
+    "Student number info": "Once your application is submitted, you will receive an application student number to track your status."
+  };
+
+  let currentCategory = "career";
+
+  function showSuggestions(category) {
+    suggestionsBox.innerHTML = '';
+    categories[category].forEach(q => {
+      const btn = document.createElement("button");
+      btn.textContent = q;
+      btn.onclick = () => respondToQuestion(q);
+      suggestionsBox.appendChild(btn);
+    });
+  }
+
+  function respondToQuestion(question) {
+    const userDiv = document.createElement("div");
+    userDiv.className = "chat-message user-message";
+    userDiv.textContent = "👤 " + question;
+    chatBox.appendChild(userDiv);
+
+    const aiDiv = document.createElement("div");
+    aiDiv.className = "chat-message ai-message";
+    aiDiv.textContent = "🤖 " + (responses[question] || "I'm still learning that. Please try another question.");
+    chatBox.appendChild(aiDiv);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // Category buttons click logic
+  categoryButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      categoryButtons.forEach(b => b.classList.remove("active-category"));
+      btn.classList.add("active-category");
+      const cat = btn.getAttribute("data-cat");
+      currentCategory = cat;
+      showSuggestions(cat);
+    });
+  });
+
+  // Initial load
+  showSuggestions(currentCategory);
+</script>
+
+</body>
+</html>

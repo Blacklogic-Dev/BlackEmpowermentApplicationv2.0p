@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Black Empowerment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #FFD700, #000);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav.top-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      padding: 10px 0;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav.top-nav a, .top-nav button {
+      color: #FFD700;
+      text-decoration: none;
+      font-size: 1em;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      background: none;
+      border: 2px solid #FFD700;
+      border-radius: 5px;
+      padding: 5px 12px;
+      cursor: pointer;
+    }
+
+    nav.top-nav a.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    nav.top-nav a:hover:not(.disabled), .top-nav button:hover {
+      color: #000;
+      background-color: #FFD700;
+    }
+
+    .container {
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container h1 {
+      font-size: 2em;
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #000; /* Lock-in black compartment */
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      border: 2px solid #FFD700;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #FFD700;
+      border-radius: 5px;
+      background-color: #111;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    input[type="submit"] {
+      background-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #ffcc00;
+    }
+
+    .welcome-message {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #FFD700;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 30px;
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    nav.footer-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    nav.footer-nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-size: 1em;
+    }
+
+    .social-icons {
+      margin: 10px 0;
+    }
+
+    .social-icons a {
+      color: #FFD700;
+      margin: 0 10px;
+      font-size: 1.3em;
+      text-decoration: none;
+    }
+
+    .credits {
+      margin-top: 10px;
+      font-size: 0.8em;
+      color: #FFD700;
+    }
+
+    @media screen and (max-width: 500px) {
+      nav.top-nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+      form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  Login - Black Empowerment
+</header>
+
+<nav class="top-nav">
+  <a href="index.html" class="disabled"><i class="fas fa-home"></i> Home</a>
+  <a href="apply.html" class="disabled"><i class="fas fa-file-alt"></i> Apply</a>
+  <a href="chat.html" class="disabled"><i class="fas fa-robot"></i> Chatbot</a>
+  <a href="track.html" class="disabled"><i class="fas fa-search-location"></i> Track Application</a>
+  <button id="generateAccountBtn"><i class="fas fa-key"></i> Generate Account</button>
+</nav>
+
+<div class="container">
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="text" id="studentId" placeholder="Enter Student ID" required>
+    <input type="password" id="password" placeholder="Enter Password" required>
+    <input type="submit" value="Login">
+  </form>
+
+  <div class="welcome-message" id="welcomeMessage"></div>
+</div>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+    <a href="submit.html"><i class="fas fa-upload"></i> Submit Documents</a>
+  </nav>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-github"></i></a>
+  </div>
+  <div class="credits">
+    Designed by BlackLogic and Queen Asanda<br>
+    &copy; 2025 Black Empowerment. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  let validUsers = [];
+
+  const loginForm = document.getElementById('loginForm');
+  const studentIdInput = document.getElementById('studentId');
+  const passwordInput = document.getElementById('password');
+  const welcomeMessage = document.getElementById('welcomeMessage');
+  const generateAccountBtn = document.getElementById('generateAccountBtn');
+  const navLinks = document.querySelectorAll('.top-nav a');
+
+  let accountGenerated = false;
+  let userLoggedIn = false;
+
+  function enableNavLinks() {
+    navLinks.forEach(link => link.classList.remove('disabled'));
+  }
+
+  // Generate Account Button
+  generateAccountBtn.addEventListener('click', function(){
+    const newId = "BE-" + Math.random().toString(36).substring(2, 6).toUpperCase() + Math.floor(Math.random()*9000+1000);
+    const newPass = Math.random().toString(36).substring(2, 10);
+
+    validUsers.push({ studentId: newId, password: newPass });
+
+    studentIdInput.value = newId;
+    passwordInput.value = newPass;
+
+    accountGenerated = true;
+
+    alert(`🎉 New account generated!\nStudent ID: ${newId}\nPassword: ${newPass}`);
+  });
+
+  // Login Form
+  loginForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if(!accountGenerated){
+      alert("⚠️ Please generate your account first!");
+      return;
+    }
+
+    const studentId = studentIdInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    const user = validUsers.find(u => u.studentId === studentId && u.password === password);
+
+    if(user){
+      userLoggedIn = true;
+      welcomeMessage.innerHTML = `<p>✅ Welcome back, ${studentId}!</p><p>Redirecting...</p>`;
+      enableNavLinks();
+      setTimeout(() => { window.location.href = "apply.html"; }, 2000);
+    } else {
+      alert("❌ Incorrect Student ID or Password! Access denied.");
+    }
+  });
+
+  // Prevent nav clicks before login
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e){
+      if(!userLoggedIn){
+          e.preventDefault();
+        alert("⚠️ You must generate an account and log in first!");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

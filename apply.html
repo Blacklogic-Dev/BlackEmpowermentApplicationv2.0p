@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Empowerment Application</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --gold:#FFD700;
+  --accent:#22d3ee;
+  --bg:#000;
+  --panel:#1a1a1a;
+  --ok:#22c55e;
+}
+body{background:var(--bg); color:#fff; font-family:Arial,sans-serif; margin:0; padding:20px;}
+h2{text-align:center;color:var(--gold); margin:.25rem 0 1rem;}
+form{max-width:900px;margin:auto;background:var(--panel);padding:20px;border-radius:12px;}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:720px){.grid{grid-template-columns:1fr;}}
+label{font-weight:700;margin-top:8px;}
+select,input{display:block;width:100%;margin-top:6px;padding:10px 12px;border-radius:8px;border:1px solid #2b2b2b;background:#111;color:#fff;}
+select:focus,input:focus{border-color:var(--accent);}
+.row{display:grid; gap:16px; grid-template-columns:repeat(3,1fr);}
+.row>div{display:flex; flex-direction:column;}
+@media(max-width:900px){.row{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.row{grid-template-columns:1fr;}}
+.actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;}
+button{background:var(--ok); color:black; padding:12px 16px; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition:transform .12s ease, opacity .2s ease;}
+button:hover{transform:translateY(-1px); opacity:.95;}
+.btn-outline{background:#111;color:#fff;border:1px solid #2b2b2b;}
+.btn-gold{background:var(--gold); color:#000;}
+.institution-type{margin:10px 0;}
+.institution-type button{margin-right:8px; padding:6px 10px; border:none; border-radius:6px; cursor:pointer;}
+.institution-type button.active{background:var(--gold); color:#000;}
+.output{max-width:900px;margin:22px auto 90px;background:#fff;color:#000;padding:16px;border-radius:12px;white-space:pre-wrap;font-family:ui-monospace;display:none;}
+footer{background:rgba(0,0,0,0.85);padding:20px 10px;text-align:center;color:var(--accent);}
+footer .footer-nav{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:10px;}
+footer .footer-nav a{color:var(--accent);text-decoration:none;font-weight:600;}
+footer .social-icons{display:flex;justify-content:center;gap:12px;margin-bottom:8px;}
+</style>
+</head>
+<body>
+<h2>Black Empowerment Application</h2>
+
+<form id="appForm">
+  <!-- Student ID display -->
+  <div class="grid">
+    <div>
+      <label for="studentId">Student ID</label>
+      <input type="text" id="studentId" readonly>
+    </div>
+    <div>
+      <label for="applicationCode">Application Code</label>
+      <input type="text" id="applicationCode" placeholder="Auto-generated" readonly>
+    </div>
+  </div>
+
+  <hr style="border-color:#222;margin:18px 0">
+
+  <!-- Personal Information -->
+  <div class="grid">
+    <div>
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="e.g., Asanda Ndlovu">
+    </div>
+    <div>
+      <label for="idNumber">ID Number</label>
+      <input type="text" id="idNumber" placeholder="e.g., 0000000000000">
+    </div>
+    <div>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="e.g., you@email.com">
+    </div>
+    <div>
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" placeholder="e.g., 071 234 5678">
+    </div>
+  </div>
+
+  <hr style="border-color:#222;margin:18px 0">
+
+  <!-- Choices 1,2,3 -->
+  <div class="choice" data-choice="1">
+    <h3>Choice 1</h3>
+    <div class="institution-type">
+      <button type="button" class="active" data-type="university">University</button>
+      <button type="button" data-type="college">College</button>
+    </div>
+    <div class="row">
+      <div>
+        <label for="institution1">Institution</label>
+        <select id="institution1"></select>
+      </div>
+      <div>
+        <label for="faculty1">Faculty</label>
+        <select id="faculty1">
+          <option value="">-- Select Faculty --</option>
+          <option>Engineering</option>
+          <option>Science</option>
+          <option>Health</option>
+          <option>Business</option>
+          <option>Agricultural</option>
+          <option>Arts & Humanities</option>
+        </select>
+      </div>
+      <div>
+        <label for="course1">Course</label>
+        <select id="course1"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="choice" data-choice="2">
+    <h3>Choice 2</h3>
+    <div class="institution-type">
+      <button type="button" class="active" data-type="university">University</button>
+      <button type="button" data-type="college">College</button>
+    </div>
+    <div class="row">
+      <div>
+        <label for="institution2">Institution</label>
+        <select id="institution2"></select>
+      </div>
+      <div>
+        <label for="faculty2">Faculty</label>
+        <select id="faculty2"></select>
+      </div>
+      <div>
+        <label for="course2">Course</label>
+        <select id="course2"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="choice" data-choice="3">
+    <h3>Choice 3</h3>
+    <div class="institution-type">
+      <button type="button" class="active" data-type="university">University</button>
+      <button type="button" data-type="college">College</button>
+    </div>
+    <div class="row">
+      <div>
+        <label for="institution3">Institution</label>
+        <select id="institution3"></select>
+      </div>
+      <div>
+        <label for="faculty3">Faculty</label>
+        <select id="faculty3"></select>
+      </div>
+      <div>
+        <label for="course3">Course</label>
+        <select id="course3"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:18px;">
+    <div>
+      <label for="applicationYear">Application Year</label>
+      <input type="text" id="applicationYear" value="2026" readonly>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn-gold" onclick="generateApplication()">Submit Application</button>
+    <button type="button" class="btn-outline" onclick="downloadPDF()" id="pdfBtn" disabled>Download PDF</button>
+    <button type="button" class="btn-outline" onclick="shareToAgent()" id="shareBtn" disabled>Share to Agent</button>
+  </div>
+</form>
+
+<div class="output" id="outputBox"></div>
+
+<footer>
+  <p>&copy; 2025 Black Empowerment | Designed by BlackLogic & Queen Asanda</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const universities = [
+  "University of Cape Town","University of Pretoria","University of Johannesburg",
+  "University of KwaZulu-Natal","North-West University","University of the Witwatersrand"
+];
+const colleges = [
+  "Cape Peninsula University of Technology","Durban University of Technology",
+  "Tshwane University of Technology","Vaal University of Technology",
+  "Central University of Technology","College of Gert Sibande"
+];
+const coursesByFaculty = {
+  "Engineering":["Civil Engineering","Mechanical Engineering","Electrical Engineering","Industrial Engineering","Computer Engineering","Chemical Engineering"],
+  "Science":["Physics","Chemistry","Mathematics","Biology","Environmental Science","Geology"],
+  "Health":["Nursing","Medicine","Pharmacy","Radiography","Physiotherapy","Occupational Therapy"],
+  "Business":["Accounting","Economics","Entrepreneurship","Marketing","Human Resources","Finance"],
+  "Agricultural":["Crop Science","Animal Science","Agricultural Engineering","Agribusiness","Horticulture","Soil Science"],
+  "Arts & Humanities":["History","Philosophy","Languages","Performing Arts","Visual Arts","Cultural Studies"]
+};
+
+// Populate institutions
+function populateInstitutions(choiceNum, type){
+  const instEl = document.getElementById("institution"+choiceNum);
+  instEl.innerHTML = "<option value=''>-- Select Institution --</option>";
+  const list = type==="university"?universities:colleges;
+  list.forEach(i=>instEl.add(new Option(i,i)));
+}
+
+// Filter courses
+function filterCourses(choiceNum){
+  const facultyEl = document.getElementById("faculty"+choiceNum);
+  const courseEl = document.getElementById("course"+choiceNum);
+  const faculty = facultyEl.value;
+  courseEl.innerHTML="<option value=''>-- Select Course --</option>";
+  if(faculty && coursesByFaculty[faculty]){
+    coursesByFaculty[faculty].forEach(c=>courseEl.add(new Option(c,c)));
+  }
+}
+
+// Initialize all choices
+["1","2","3"].forEach(n=>{
+  populateInstitutions(n,"university");
+  document.getElementById("faculty"+n).addEventListener("change",()=>filterCourses(n));
+});
+
+// Toggle buttons
+document.querySelectorAll(".institution-type").forEach(container=>{
+  const buttons = container.querySelectorAll("button");
+  buttons.forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      buttons.forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const choiceNum = container.closest(".choice").dataset.choice;
+      populateInstitutions(choiceNum, btn.dataset.type);
+    });
+  });
+});
+
+// Auto-fill Student ID and generate Application Code
+window.addEventListener("DOMContentLoaded",()=>{
+  const studentId = localStorage.getItem("studentId") || "BE-XXXX";
+  document.getElementById("studentId").value = studentId;
+  document.getElementById("applicationCode").value = "APP-" + Math.floor(Math.random()*9000 + 1000);
+});
+
+// Generate Application
+function generateApplication(){
+  const studentId = document.getElementById("studentId").value;
+  const appCode = document.getElementById("applicationCode").value;
+  const fullName = document.getElementById("fullName").value;
+  const idNumber = document.getElementById("idNumber").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const year = document.getElementById("applicationYear").value;
+
+  let receipt = `APPLICATION RECEIPT\n\nStudent ID: ${studentId}\nApplication Code: ${appCode}\nName: ${fullName}\nID: ${idNumber}\nEmail: ${email}\nPhone: ${phone}\nYear: ${year}\n\nChoices:\n`;
+  
+  for(let i=1;i<=3;i++){
+    const inst=document.getElementById("institution"+i).value || "N/A";
+    const faculty=document.getElementById("faculty"+i).value || "N/A";
+    const course=document.getElementById("course"+i).value || "N/A";
+    receipt += `Choice ${i}: ${inst} - ${faculty} - ${course}\n`;
+  }
+
+  document.getElementById("outputBox").style.display="block";
+  document.getElementById("outputBox").textContent=receipt;
+  document.getElementById("pdfBtn").disabled=false;
+  document.getElementById("shareBtn").disabled=false;
+
+  // Save application
+  localStorage.setItem(`application-${studentId}`, JSON.stringify({
+    studentId, appCode, fullName, idNumber, email, phone, year,
+    choices:[
+      {inst:document.getElementById("institution1").value, faculty:document.getElementById("faculty1").value, course:document.getElementById("course1").value},
+      {inst:document.getElementById("institution2").value, faculty:document.getElementById("faculty2").value, course:document.getElementById("course2").value},
+      {inst:document.getElementById("institution3").value, faculty:document.getElementById("faculty3").value, course:document.getElementById("course3").value}
+    ]
+  }));
+  alert("Application submitted successfully!");
+}
+
+// PDF
+function downloadPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFont("Courier");
+  doc.text(document.getElementById("outputBox").textContent, 10, 10);
+  doc.save("ApplicationReceipt.pdf");
+}
+
+// WhatsApp
+function shareToAgent(){
+  const receipt = document.getElementById("outputBox").textContent;
+  const phoneNumber = "+27606614909";
+  const msg = encodeURIComponent("Hi, I'm an applicant. Here are my details:\n\n"+receipt);
+  window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+}
+</script>
+</body>
+</html>
