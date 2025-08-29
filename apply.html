@@ -195,15 +195,29 @@ const coursesByFaculty = {
   "Arts & Humanities":["History","Philosophy","Languages","Performing Arts","Visual Arts","Cultural Studies"]
 };
 
-// Populate institutions
+// Populate faculties and courses
+function populateFaculties(choiceNum){
+  const facultyEl = document.getElementById("faculty"+choiceNum);
+  facultyEl.innerHTML = "<option value=''>-- Select Faculty --</option>";
+  Object.keys(coursesByFaculty).forEach(fac => facultyEl.add(new Option(fac, fac)));
+  // Auto-select first faculty
+  if(facultyEl.options.length > 1){
+    facultyEl.value = facultyEl.options[1].value;
+    filterCourses(choiceNum);
+  }
+}
+
+// Populate institutions and update faculties
 function populateInstitutions(choiceNum, type){
   const instEl = document.getElementById("institution"+choiceNum);
   instEl.innerHTML = "<option value=''>-- Select Institution --</option>";
   const list = type==="university"?universities:colleges;
   list.forEach(i=>instEl.add(new Option(i,i)));
+  if(list.length) instEl.value = list[0]; // auto select first institution
+  populateFaculties(choiceNum);
 }
 
-// Filter courses
+// Filter courses based on selected faculty
 function filterCourses(choiceNum){
   const facultyEl = document.getElementById("faculty"+choiceNum);
   const courseEl = document.getElementById("course"+choiceNum);
@@ -211,16 +225,22 @@ function filterCourses(choiceNum){
   courseEl.innerHTML="<option value=''>-- Select Course --</option>";
   if(faculty && coursesByFaculty[faculty]){
     coursesByFaculty[faculty].forEach(c=>courseEl.add(new Option(c,c)));
+    courseEl.value = coursesByFaculty[faculty][0]; // auto-select first course
   }
 }
 
 // Initialize all choices
 ["1","2","3"].forEach(n=>{
   populateInstitutions(n,"university");
+
+  // When faculty changes, update courses
   document.getElementById("faculty"+n).addEventListener("change",()=>filterCourses(n));
+
+  // When institution changes, re-populate faculties
+  document.getElementById("institution"+n).addEventListener("change",()=>populateFaculties(n));
 });
 
-// Toggle buttons
+// Toggle buttons for university/college
 document.querySelectorAll(".institution-type").forEach(container=>{
   const buttons = container.querySelectorAll("button");
   buttons.forEach(btn=>{
@@ -233,7 +253,7 @@ document.querySelectorAll(".institution-type").forEach(container=>{
   });
 });
 
-// Auto-fill Student ID and generate Application Code
+// Auto-fill Student ID and Application Code
 window.addEventListener("DOMContentLoaded",()=>{
   const studentId = localStorage.getItem("studentId") || "BE-XXXX";
   document.getElementById("studentId").value = studentId;
@@ -260,7 +280,7 @@ function generateApplication(){
   }
 
   document.getElementById("outputBox").style.display="block";
-  document.getElementById("outputBox").textContent=receipt;
+  document.getElementById("outputBox").textContent = receipt;
   document.getElementById("pdfBtn").disabled=false;
   document.getElementById("shareBtn").disabled=false;
 
@@ -293,5 +313,3 @@ function shareToAgent(){
   window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 }
 </script>
-</body>
-</html>
